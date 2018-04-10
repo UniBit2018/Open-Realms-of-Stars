@@ -255,10 +255,23 @@ public class AStarSearch {
    * @return true if valid otherwise false
    */
   private boolean isValidPos(final int x, final int y) {
-    if (x >= 0 && y >= 0 && x < maxX && y < maxY) {
-      return true;
+    if(x < 0) {
+      return false;
     }
-    return false;
+    
+    if(y < 0) {
+      return false;
+    }
+    
+    if(x >= maxX) {
+      return false;
+    }
+    
+    if(y >= maxY) {
+      return false;
+    }
+    
+    return true;
   }
 
   /**
@@ -277,8 +290,8 @@ public class AStarSearch {
       if (points.size() > 0) {
         PathPoint point = points.get(0);
         points.remove(0);
-        for (int y = -1; y < 2; y++) {
-          for (int x = -1; x < 2; x++) {
+        for (int y = -1; y <= +1; y++) {
+          for (int x = -1; x <= +1; x++) {
             if (y == 0 && x == 0) {
               continue;
             }
@@ -304,7 +317,6 @@ public class AStarSearch {
                 } else {
                   // Seems to be closer, so adding it to first one
                   points.add(0, newPoint);
-
                 }
               } else {
                 // Seems to be more far away so adding it to end
@@ -330,18 +342,22 @@ public class AStarSearch {
    * Calculate Route
    */
   public void doRoute() {
+    if (targetPoint == null) {
+      return;
+    }
+    
+    points = new ArrayList<>();
+    points.add(targetPoint);
+    int count = UNBLOCKED;
+
     boolean targetReached = false;
-    if (targetPoint != null) {
-      points = new ArrayList<>();
-      points.add(targetPoint);
-      int count = UNBLOCKED;
       while (!targetReached) {
         PathPoint point = points.get(points.size() - 1);
         int bx = 0;
         int by = 0;
         double bestDistance = START_DISTANCE;
-        for (int y = -1; y < 2; y++) {
-          for (int x = -1; x < 2; x++) {
+        for (int y = -1; y <= +1; y++) {
+          for (int x = -1; x <= +1; x++) {
             if (y == 0 && x == 0) {
               continue;
             }
@@ -368,7 +384,6 @@ public class AStarSearch {
 
       }
       routeIndex = points.size() - 1;
-    }
   }
 
   /**
@@ -376,10 +391,19 @@ public class AStarSearch {
    * @return PathPoint or null if cannot move
    */
   public PathPoint getMove() {
-    if (targetPoint != null && points.size() > 0 && routeIndex != -1) {
-      return points.get(routeIndex);
+    if(targetPoint == null) {
+      return null;
     }
-    return null;
+    
+    if(points.size() <= 0) {
+      return null;
+    }
+    
+    if(routeIndex == -1) {
+      return null;
+    }
+    
+    return points.get(routeIndex);
   }
 
   /**
@@ -397,9 +421,14 @@ public class AStarSearch {
    * @return True if last move reached or false if not
    */
   public boolean isLastMove() {
-    if (routeIndex == 0 || targetPoint == null) {
+    if (routeIndex == 0) {
       return true;
     }
+    
+    if(targetPoint == null) {
+      return true;
+    }
+    
     return false;
   }
 
