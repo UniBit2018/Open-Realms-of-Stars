@@ -42,21 +42,23 @@ public final class TextUtilities {
       throw new IllegalArgumentException("Integers below one are not"
           + " allowed!");
     }
-    if (number == 1) {
+    
+    switch (number) {
+      case 1:
       return "first";
-    } else if (number == 2) {
+      case 2:
       return "second";
-    } else if (number == 3) {
+      case 3:
       return "third";
-    } else if (number == 4) {
+      case 4:
       return "fourth";
-    } else if (number == 11) {
+      case 11:
       return "11th";
-    } else if (number == 12) {
+      case 12:
       return "12th";
-    } else if (number == 13) {
+      case 13:
       return "13th";
-    } else {
+      default:
       String temp = Integer.toString(number);
       char lastCh = temp.charAt(temp.length() - 1);
       char secondLastCh = '0';
@@ -73,6 +75,5 @@ public final class TextUtilities {
         return temp + "th";
       }
     }
-
   }
 }
