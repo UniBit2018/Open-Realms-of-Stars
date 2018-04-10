@@ -24,15 +24,16 @@ package org.openRealmOfStars.AI.PathFinding;
  */
 
 public class PathPoint {
-
   /**
    * Point X coordinate
    */
   private int x;
+
   /**
    * Point Y coordinate
    */
   private int y;
+
   /**
    * Distance to target
    */
@@ -105,12 +106,15 @@ public class PathPoint {
 
   @Override
   public boolean equals(final Object obj) {
-    if (obj instanceof PathPoint) {
-      PathPoint point = (PathPoint) obj;
-      if (this.x == point.getX() && this.y == point.getY()) {
-        return true;
-      }
+    if (obj instanceof PathPoint == false) {
+      return false;
     }
+    
+    PathPoint point = (PathPoint) obj;
+    if (this.x == point.getX() && this.y == point.getY()) {
+      return true;
+    }
+    
     return false;
   }
 
