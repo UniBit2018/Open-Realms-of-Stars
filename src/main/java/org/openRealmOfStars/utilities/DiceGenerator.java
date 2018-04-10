@@ -38,22 +38,27 @@ public final class DiceGenerator {
    * Is generator initialized or not
    */
   private static boolean initialized = false;
+
   /**
    * First Java's RNG
    */
   private static Random generator1;
+  
   /**
    * Second Java's RNG
    */
   private static Random generator2;
+
   /**
    * Seed of MultiplyWithCarry generator
    */
   private static int mz;
+
   /**
    * Second seed of MultiplyWithCarry generator
    */
   private static int mw;
+
   /**
    * Seed of XORShift generator
    */
@@ -75,15 +80,17 @@ public final class DiceGenerator {
    * Initialize generator. This only needs to be called once.
    */
   private static void initializeGenerators() {
-    if (!initialized) {
-      generator1 = new Random(System.nanoTime());
-      generator2 = new Random(generator1.nextLong());
-      mz = (int) System.nanoTime();
-      mw = (int) System.currentTimeMillis();
-      mw = mw >> 8;
-      x = System.nanoTime();
-      initialized = true;
+    if (initialized == true) {
+      return;
     }
+    
+    generator1 = new Random(System.nanoTime());
+    generator2 = new Random(generator1.nextLong());
+    mz = (int) System.nanoTime();
+    mw = (int) System.currentTimeMillis();
+    mw = mw >> 8;
+    x = System.nanoTime();
+    initialized = true;
   }
 
   /**
@@ -123,6 +130,7 @@ public final class DiceGenerator {
       break;
     default:
       throw new IllegalArgumentException("Bad behaving PRF!");
+      break;
     }
     return result;
   }
@@ -153,12 +161,13 @@ public final class DiceGenerator {
   private static int getRandomJava(final int maxValue) {
     int result = generator2.nextInt(maxValue);
     int result2 = generator1.nextInt();
+
     if (result2 % 5 == 0) {
       generator1 = new Random(System.nanoTime());
       generator2 = new Random(generator1.nextLong());
     }
+    
     return result;
-
   }
 
   /**
@@ -203,6 +212,7 @@ public final class DiceGenerator {
    * Magic number 2 for XOR shift
    */
   private static final int XOR_SHIFT_MAGIC2 = 35;
+
   /**
    * Get random with XORShift function
    * @param maxValue exclusive
