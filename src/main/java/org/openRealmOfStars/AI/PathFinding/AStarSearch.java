@@ -148,11 +148,21 @@ public class AStarSearch {
         } else {
           blockMap[x][y] = UNBLOCKED;
         }
-        if (combat.getWormHoleCoordinate() != null
-            && combat.getWormHoleCoordinate().sameAs(target)
-            && x == target.getX() && y == target.getY()) {
-          blockMap[x][y] = UNBLOCKED;
+        
+        if (combat.getWormHoleCoordinate() == null) {
+          continue;
         }
+        if(combat.getWormHoleCoordinate().sameAs(target) == false) {
+          continue;
+        }
+        if(x != target.getX()) {
+          continue;
+        }
+        if(y != target.getY()) {
+          continue;
+        }
+
+        blockMap[x][y] = UNBLOCKED;
       }
     }
     points = new ArrayList<>();
@@ -361,18 +371,27 @@ public class AStarSearch {
             if (y == 0 && x == 0) {
               continue;
             }
+            
             int mx = x + point.getX();
             int my = y + point.getY();
             Coordinate coordinate = new Coordinate(mx, my);
             Coordinate targetCoordinate = new Coordinate(tx, ty);
             double distance = coordinate.calculateDistance(targetCoordinate);
-            if (isValidPos(mx, my) && blockMap[mx][my] < count
-                && distance <= bestDistance) {
-              bx = mx;
-              by = my;
-              bestDistance = distance;
-              count = blockMap[bx][by];
+            
+            if(isValidPos(mx, my) == false) {
+              continue;
             }
+            if(blockMap[mx][my] >= count) {
+              continue;
+            }
+            if(distance > bestDistance) {
+              continue;
+            }
+
+            bx = mx;
+            by = my;
+            bestDistance = distance;
+            count = blockMap[bx][by];
           }
         }
         PathPoint newPoint = new PathPoint(bx, by, bestDistance);
@@ -410,10 +429,20 @@ public class AStarSearch {
    * Move route index to next move point on found path.
    */
   public void nextMove() {
-    if (targetPoint != null && points.size() > 1 && routeIndex != -1
-        && routeIndex > 0) {
-      routeIndex--;
+    if(targetPoint == null) {
+      return;
     }
+    if(points.size() <= 1) {
+      return;
+    }
+    if(routeIndex == -1) {
+      return;
+    }
+    if(routeIndex <= 0) {
+      return;
+    }
+   
+    routeIndex--;
   }
 
   /**
