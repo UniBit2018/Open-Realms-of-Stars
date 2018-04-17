@@ -446,36 +446,41 @@ public class Game implements ActionListener {
    * @param view about BlackPanel
    */
   private void updateDisplay(final BlackPanel view) {
-    if (gameFrame != null) {
-      gameFrame.getContentPane().removeAll();
-      layeredPane = new JLayeredPane();
-      view.setBounds(0, 0, WINDOW_X_SIZE, WINDOW_Y_SIZE);
-      layeredPane.setLayer(view, JLayeredPane.DEFAULT_LAYER);
-      layeredPane.add(view);
-      layeredPane.setBounds(0, 0, WINDOW_X_SIZE, WINDOW_Y_SIZE);
-      int y = MUSIC_TEXT_TOP;
-      if (view instanceof MainMenu || view instanceof ResearchView
-          || view instanceof ShipView || view instanceof GalaxyCreationView
-          || view instanceof PlayerSetupView
-          || view instanceof DiplomacyView) {
-        y = MUSIC_TEXT_BOTTOM;
-      }
-      songText = new JLabel("Test");
-      songText.setBounds(650, y, 350, 150);
-      songText.setFont(GuiStatics.getFontCubellanBold());
-      songText.setForeground(Color.white);
-      MusicFileInfo info = MusicPlayer.getNowPlaying();
-      String text = "<html>Now playing: " + info.getName() + " by "
-          + info.getAuthor() + "</html>";
-      songText.setText(text);
-      layeredPane.setLayer(songText, JLayeredPane.POPUP_LAYER);
-      layeredPane.add(songText);
-      if (MusicPlayer.isTextDisplayedEnough()) {
-        songText.setVisible(false);
-      }
-      gameFrame.add(layeredPane);
-      gameFrame.validate();
+    /*
+     * If there is no game frame there is nothing to do.
+     */
+    if (gameFrame == null) {
+      return;
     }
+    
+    gameFrame.getContentPane().removeAll();
+    layeredPane = new JLayeredPane();
+    view.setBounds(0, 0, WINDOW_X_SIZE, WINDOW_Y_SIZE);
+    layeredPane.setLayer(view, JLayeredPane.DEFAULT_LAYER);
+    layeredPane.add(view);
+    layeredPane.setBounds(0, 0, WINDOW_X_SIZE, WINDOW_Y_SIZE);
+    int y = MUSIC_TEXT_TOP;
+    if (view instanceof MainMenu || view instanceof ResearchView
+        || view instanceof ShipView || view instanceof GalaxyCreationView
+        || view instanceof PlayerSetupView
+        || view instanceof DiplomacyView) {
+      y = MUSIC_TEXT_BOTTOM;
+    }
+    songText = new JLabel("Test");
+    songText.setBounds(650, y, 350, 150);
+    songText.setFont(GuiStatics.getFontCubellanBold());
+    songText.setForeground(Color.white);
+    MusicFileInfo info = MusicPlayer.getNowPlaying();
+    String text = "<html>Now playing: " + info.getName() + " by "
+        + info.getAuthor() + "</html>";
+    songText.setText(text);
+    layeredPane.setLayer(songText, JLayeredPane.POPUP_LAYER);
+    layeredPane.add(songText);
+    if (MusicPlayer.isTextDisplayedEnough()) {
+      songText.setVisible(false);
+    }
+    gameFrame.add(layeredPane);
+    gameFrame.validate();
   }
 
   /**
@@ -486,6 +491,7 @@ public class Game implements ActionListener {
     if (gameFrame != null) {
       return gameFrame.getContentPane().getWidth();
     }
+    
     return WINDOW_X_SIZE;
   }
 
@@ -497,6 +503,7 @@ public class Game implements ActionListener {
     if (gameFrame != null) {
       return gameFrame.getContentPane().getHeight();
     }
+    
     return WINDOW_Y_SIZE;
   }
 
@@ -519,7 +526,7 @@ public class Game implements ActionListener {
   public void showPlanetView(final Planet planet, final PlayerInfo player,
       final boolean interactive) {
     planetView = new PlanetView(planet, interactive, player, this);
-    this.updateDisplay(planetView);
+    updateDisplay(planetView);
   }
 
   /**
@@ -528,7 +535,7 @@ public class Game implements ActionListener {
   public void showNewsCorpView() {
     newsCorpView = new NewsCorpView(starMap.getNewsCorpData().getNewsList(),
         this);
-    this.updateDisplay(newsCorpView);
+    updateDisplay(newsCorpView);
   }
 
   /**
@@ -538,7 +545,7 @@ public class Game implements ActionListener {
     espionageView = new EspionageView(starMap.getPlayerList(),
         starMap.getCurrentPlayerInfo(),
         starMap.getNewsCorpData().getMilitary(), this);
-    this.updateDisplay(espionageView);
+    updateDisplay(espionageView);
   }
 
   /**
@@ -575,7 +582,7 @@ public class Game implements ActionListener {
     planetBombingView = new PlanetBombingView(planet, fleet,
         starMap.getCurrentPlayerInfo(), players.getCurrentPlayer(), this);
     planetBombingView.setStarMap(starMap);
-    this.updateDisplay(planetBombingView);
+    updateDisplay(planetBombingView);
   }
 
   /**
@@ -585,7 +592,7 @@ public class Game implements ActionListener {
   public void showPlanetBombingView(final PlanetBombingView view) {
     planetBombingView = view;
     planetBombingView.setStarMap(starMap);
-    this.updateDisplay(planetBombingView);
+    updateDisplay(planetBombingView);
   }
 
   /**
@@ -600,7 +607,7 @@ public class Game implements ActionListener {
         players.getCurrentPlayerInfo().getFleets(),
         players.getCurrentPlayerInfo(), interactive, this);
     fleetView.setStarmap(getStarMap());
-    this.updateDisplay(fleetView);
+    updateDisplay(fleetView);
   }
 
   /**
@@ -609,7 +616,7 @@ public class Game implements ActionListener {
    */
   public void showStarMap(final Object object) {
     starMapView = new StarMapView(starMap, players, this);
-    this.updateDisplay(starMapView);
+    updateDisplay(starMapView);
     starMapView.setAutoFocus(false);
     if (object == null) {
       focusOnMessage(true);
@@ -626,7 +633,7 @@ public class Game implements ActionListener {
    */
   public void showHistoryView() {
     historyView = new HistoryView(starMap, this);
-    this.updateDisplay(historyView);
+    updateDisplay(historyView);
   }
 
   /**
@@ -713,7 +720,7 @@ public class Game implements ActionListener {
     }
     diplomacyView = new DiplomacyView(starMap.getPlayerByIndex(0), info,
         starMap, type, fleet, planet, this);
-    this.updateDisplay(diplomacyView);
+    updateDisplay(diplomacyView);
   }
 
   /**
@@ -731,7 +738,7 @@ public class Game implements ActionListener {
     } else {
       combatView = new BattleView(combat, starMap, this);
     }
-    this.updateDisplay(combatView);
+    updateDisplay(combatView);
   }
 
   /**
@@ -748,7 +755,7 @@ public class Game implements ActionListener {
         starMap.getTotalProductionByPlayerPerTurn(Planet.PRODUCTION_RESEARCH,
             players.getCurrentPlayer()),
         focusTech, this);
-    this.updateDisplay(researchView);
+    updateDisplay(researchView);
   }
 
   /**
@@ -756,7 +763,7 @@ public class Game implements ActionListener {
    */
   public void showShipView() {
     shipView = new ShipView(players.getCurrentPlayerInfo(), this);
-    this.updateDisplay(shipView);
+    updateDisplay(shipView);
   }
 
   /**
@@ -764,7 +771,7 @@ public class Game implements ActionListener {
    */
   public void showStatView() {
     statView = new StatView(starMap, this);
-    this.updateDisplay(statView);
+   updateDisplay(statView);
   }
 
   /**
@@ -774,7 +781,7 @@ public class Game implements ActionListener {
   public void showShipDesignView(final ShipDesign oldDesign) {
     shipDesignView = new ShipDesignView(players.getCurrentPlayerInfo(),
         oldDesign, this);
-    this.updateDisplay(shipDesignView);
+    updateDisplay(shipDesignView);
   }
 
   /**
@@ -782,7 +789,7 @@ public class Game implements ActionListener {
    */
   public void showMainMenu() {
     mainMenu = new MainMenu(this);
-    this.updateDisplay(mainMenu);
+    updateDisplay(mainMenu);
   }
 
   /**
@@ -791,7 +798,7 @@ public class Game implements ActionListener {
   public void showGalaxyCreation() {
     galaxyCreationView = new GalaxyCreationView(galaxyConfig, this);
     galaxyConfig = galaxyCreationView.getConfig();
-    this.updateDisplay(galaxyCreationView);
+    updateDisplay(galaxyCreationView);
   }
 
   /**
@@ -799,7 +806,7 @@ public class Game implements ActionListener {
    */
   public void showPlayerSetup() {
     playerSetupView = new PlayerSetupView(galaxyConfig, this);
-    this.updateDisplay(playerSetupView);
+    updateDisplay(playerSetupView);
   }
 
   /**
@@ -807,7 +814,7 @@ public class Game implements ActionListener {
    */
   public void showLoadGame() {
     loadGameView = new LoadGameView(this);
-    this.updateDisplay(loadGameView);
+    updateDisplay(loadGameView);
   }
 
 
@@ -841,7 +848,7 @@ public class Game implements ActionListener {
       System.out.println("Could not show credits: " + e.getMessage());
       System.exit(0);
     }
-    this.updateDisplay(creditsView);
+    updateDisplay(creditsView);
   }
 
   /**
@@ -969,21 +976,25 @@ public class Game implements ActionListener {
    * Show fleet View
    */
   private void fleetView() {
+    /*
+     * If there is no last clicked fleet there is nothing to be done.
+     */
     if (starMapView.getStarMapMouseListener()
-             .getLastClickedFleet() != null) {
-        Fleet fleet = starMapView.getStarMapMouseListener()
-                .getLastClickedFleet();
-        Planet planet = starMap.getPlanetByCoordinate(fleet.getX(),
-            fleet.getY());
-        boolean interactive = false;
-        if (starMap.getCurrentPlayerInfo()
-                == starMap.getPlayerInfoByFleet(fleet)) {
-          interactive = true;
-        }
-        showFleetView(planet, fleet, interactive);
-      }
+         .getLastClickedFleet() == null) {
+      return;
+    }
+    
+    Fleet fleet = starMapView.getStarMapMouseListener()
+            .getLastClickedFleet();
+    Planet planet = starMap.getPlanetByCoordinate(fleet.getX(),
+        fleet.getY());
+    boolean interactive = false;
+    if (starMap.getCurrentPlayerInfo()
+            == starMap.getPlayerInfoByFleet(fleet)) {
+      interactive = true;
+    }
+    showFleetView(planet, fleet, interactive);
   }
-
 
   /**
    * Show planet View
@@ -1019,14 +1030,12 @@ public class Game implements ActionListener {
    * Show ship design
    */
   private void shipDesign() {
-   if (shipView != null && shipView.isCopyClicked()) {
+   if (shipView != null && shipView.isCopyClicked() == true) {
         showShipDesignView(shipView.getSelectedShip());
       } else {
         showShipDesignView(null);
       }
-
   }
-
 
   /**
    * Show combat
@@ -1038,9 +1047,7 @@ public class Game implements ActionListener {
       } else {
         showCombat(null);
       }
-
   }
-
 
   /**
    * Show planetBombingView
@@ -1066,9 +1073,7 @@ public class Game implements ActionListener {
     if (!changed) {
       changeGameState(GameState.STARMAP);
     }
-
   }
-
 
   /**
    * Make new Game State
@@ -1082,9 +1087,7 @@ public class Game implements ActionListener {
       setNullView();
       calculateCorpData(corpData);
       changeGameState(GameState.STARMAP);
-
   }
-
 
   /**
    * Calculate Corporation Data
@@ -1097,9 +1100,7 @@ public class Game implements ActionListener {
       corpData.calculatePlanets(starMap.getPlanetList());
       corpData.calculatePopulation(starMap.getPlanetList());
       corpData.calculateResearch(players);
-
   }
-
 
   /**
    * Set Player information when make new game
@@ -1117,17 +1118,15 @@ public class Game implements ActionListener {
     }
   }
 
-
   /**
    * Set null in view when make new game
    */
   private void setNullView() {
-      starMapView = null;
-      combatView = null;
-      researchView = null;
-      shipView = null;
-      shipDesignView = null;
-
+    starMapView = null;
+    combatView = null;
+    researchView = null;
+    shipView = null;
+    shipDesignView = null;
   }
 
   /**
@@ -1184,6 +1183,7 @@ public class Game implements ActionListener {
     }
     return sb.toString();
   }
+  
   /**
    * Print whole research wiki page contain all information about tech
    * @return Research wiki page as a String
@@ -1336,7 +1336,6 @@ public class Game implements ActionListener {
       }
       new Game(true);
     }
-
   }
 
   /**
@@ -1373,7 +1372,6 @@ public class Game implements ActionListener {
       changeGameState(GameState.PLANETVIEW, msg);
     }
   }
-
 
   /**
    * Colonize Planet Action. This should be called when player colonized a
@@ -1879,12 +1877,14 @@ public class Game implements ActionListener {
    * @return true if succesful false otherwise
    */
   public boolean setLoadedGame(final StarMap map) {
-    if (map != null) {
-      starMap = map;
-      players = starMap.getPlayerList();
-      starMap.updateStarMapOnLoadGame();
-      return true;
+    if (map == null) {
+      return false;
     }
-    return false;
+    
+    starMap = map;
+    players = starMap.getPlayerList();
+    starMap.updateStarMapOnLoadGame();
+    
+    return true;
   }
 }
