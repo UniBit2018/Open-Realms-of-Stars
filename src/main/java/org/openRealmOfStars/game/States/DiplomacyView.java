@@ -1190,10 +1190,16 @@ public class DiplomacyView extends BlackPanel {
    */
   public void addNothingToTrade() {
     int humanIndex = starMap.getPlayerList().getIndex(human);
-    if (ai.getDiplomacy() != null
-        && ai.getDiplomacy().getDiplomacyList(humanIndex) != null) {
-      DiplomacyBonusList list = ai.getDiplomacy().getDiplomacyList(humanIndex);
-      list.addBonus(DiplomacyBonusType.NOTHING_TO_TRADE, ai.getRace());
+    
+    if (ai.getDiplomacy() == null) {
+      return;
     }
+    
+    if(ai.getDiplomacy().getDiplomacyList(humanIndex) == null) {
+      return;
+    }
+    
+    DiplomacyBonusList list = ai.getDiplomacy().getDiplomacyList(humanIndex);
+    list.addBonus(DiplomacyBonusType.NOTHING_TO_TRADE, ai.getRace());
   }
 }
