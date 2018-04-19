@@ -239,11 +239,11 @@ public class ShipView extends BlackPanel {
    * @return Ship stat or null if no stat selected
    */
   public ShipStat getSelectedStat() {
-    if (shipList.getSelectedIndex() != -1) {
-      ShipStat stat = shipList.getSelectedValue();
-      return stat;
+    if (shipList.getSelectedIndex() == -1) {
+      return null;
     }
-    return null;
+    
+    return shipList.getSelectedValue();
   }
 
   /**
@@ -251,11 +251,11 @@ public class ShipView extends BlackPanel {
    * @return Get selected ship design or null
    */
   public ShipDesign getSelectedShip() {
-    if (shipList.getSelectedIndex() != -1) {
-      ShipStat stat = shipList.getSelectedValue();
-      return stat.getDesign();
+    if (shipList.getSelectedIndex() == -1) {
+      return null;
     }
-    return null;
+    
+    return shipList.getSelectedValue();
   }
 
   /**
