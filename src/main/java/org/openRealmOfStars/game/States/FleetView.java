@@ -686,12 +686,15 @@ public class FleetView extends BlackPanel {
    */
   public void setStarmap(final StarMap map) {
     starMap = map;
-    if (starMap !=  null) {
-      Tile tile = starMap.getTile(fleet.getX(), fleet.getY());
-      if (tile.getName().equals(TileNames.DEEP_SPACE_ANCHOR1)
-        || tile.getName().equals(TileNames.DEEP_SPACE_ANCHOR2)) {
-        imgBase.setTitle("In Deep Space Anchor...");
-      }
+    
+    if (starMap ==  null) {
+      return;
+    }
+    
+    Tile tile = starMap.getTile(fleet.getX(), fleet.getY());
+    if (tile.getName().equals(TileNames.DEEP_SPACE_ANCHOR1)
+      || tile.getName().equals(TileNames.DEEP_SPACE_ANCHOR2)) {
+      imgBase.setTitle("In Deep Space Anchor...");
     }
   }
 }
