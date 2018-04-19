@@ -251,11 +251,14 @@ public class BattleView extends BlackPanel {
    * Handle AI
    */
   private void handleAI() {
-    if (combat.handleAI(textLogger, infoPanel)) {
-      combatMapMouseListener.setComponentUse(-1);
-      if (combat.getCurrentShip() != null) {
-        infoPanel.showShip(combat.getCurrentShip().getShip());
-      }
+    if (combat.handleAI(textLogger, infoPanel) == false) {
+      return;
+    }
+    
+    combatMapMouseListener.setComponentUse(-1);
+    
+    if (combat.getCurrentShip() != null) {
+      infoPanel.showShip(combat.getCurrentShip().getShip());
     }
   }
 
@@ -366,5 +369,4 @@ public class BattleView extends BlackPanel {
   public Combat getCombat() {
     return combat;
   }
-
 }
